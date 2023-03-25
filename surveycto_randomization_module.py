@@ -73,7 +73,7 @@ def permutations(dir_in, size_in, csv_name):
     df.index = np.arange(1, len(df)+1)
 
     # Export file
-    file_out = dir_in + csv_name
+    file_out = dir_in/csv_name
     df.to_csv(file_out, sep=',', index=True, index_label='permutations')
  
 def texts(size_in):
@@ -247,6 +247,6 @@ with pd.ExcelWriter(workbook_name, engine='openpyxl', mode='a') as writer:
     excel.ExcelFormatter.header_style = None
     choices.to_excel(writer, index=False, sheet_name='choices')
 
-print('Success! The files have been saved in \"' + directory + '\".')
+print('Success! The files have been saved in \"' + str(directory) + '\".')
 
 ''' End '''
