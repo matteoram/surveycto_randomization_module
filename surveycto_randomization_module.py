@@ -46,16 +46,15 @@ from pandas.io.formats import excel
 
 ''' Parameters to be changed manually '''
 
-# Directory for outputs
+# Directory and output files
+csv_name = 'surveycto_randomization_module.csv'
+xlsx_name = 'surveycto_randomization_module.xlsx'
+''' Using pathlib to deal with filesystem paths '''
 directory = Path('/Users/matteoramina/Library/Mobile Documents/com~apple~CloudDocs/programming/python/surveycto_randomization_module/test/')
+workbook_name = directory/xlsx_name
 
 # Number of texts to randomize
 size = 5
-
-# Names of output files
-csv_name = 'surveycto_randomization_module.csv'
-xlsx_name = 'surveycto_randomization_module.xlsx'
-workbook_name = directory/xlsx_name
 
 ''' Functions '''
 
