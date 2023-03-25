@@ -39,6 +39,7 @@ import pandas as pd
 import numpy as np
 import itertools as it
 import math
+from pathlib import Path
 import xlsxwriter
 import openpyxl
 from pandas.io.formats import excel
@@ -46,7 +47,7 @@ from pandas.io.formats import excel
 ''' Parameters to be changed manually '''
 
 # Directory for outputs
-directory = '/Users/matteoramina/Library/Mobile Documents/com~apple~CloudDocs/programming/python/surveycto_randomization_module/out/'
+directory = Path('/Users/matteoramina/Library/Mobile Documents/com~apple~CloudDocs/programming/python/surveycto_randomization_module/test/')
 
 # Number of texts to randomize
 size = 5
@@ -54,7 +55,7 @@ size = 5
 # Names of output files
 csv_name = 'surveycto_randomization_module.csv'
 xlsx_name = 'surveycto_randomization_module.xlsx'
-workbook_name = directory + xlsx_name
+workbook_name = directory/xlsx_name
 
 ''' Functions '''
 
@@ -88,8 +89,7 @@ def texts(size_in):
     # Enter as many texts as specified by 'size_in'
     for i in range(size_in):
          
-         print('Insert text ' + str(i+1) + ':')
-         text = input()
+         text = input('Insert text ' + str(i+1) + ':')
          print('Text ' + str(i+1) + ' is \"' + text + '\".\n')
 
          texts_out[i] = text
@@ -117,8 +117,7 @@ def survey_tab(name_in, size_in):
     '''
 
     # Enter the field type associated with the text to randomize
-    print('Enter the field type of the texts (for example \"integer\", \"select_one\", \"select_multiple\".\nIf \"select_one\" or \"select_multiple\" is entered, remember to input the list name too):')
-    type_in = input()
+    type_in = input('Enter the field type of the texts (for example \"integer\", \"select_one\", \"select_multiple\".\nIf \"select_one\" or \"select_multiple\" is entered, remember to input the list name too):')
     print('The field type entered is \"' + type_in + '\".\n')
 
     # Initiate the worksheet and populate it
