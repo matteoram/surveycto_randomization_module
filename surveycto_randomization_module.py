@@ -41,7 +41,6 @@ import itertools as it
 import math
 from pathlib import Path
 import xlsxwriter
-import openpyxl
 from pandas.io.formats import excel
 
 ''' Parameters to be changed manually '''
@@ -53,10 +52,28 @@ xlsx_name = 'surveycto_randomization_module.xlsx'
 directory = Path('/Users/matteoramina/Library/Mobile Documents/com~apple~CloudDocs/programming/python/surveycto_randomization_module/test/')
 workbook_name = directory/xlsx_name
 
-# Number of texts to randomize
-size = 5
-
 ''' Functions '''
+
+def input_size():
+    ''' 
+    Input number of texts to randomize
+    '''
+
+    size_correct = False
+
+    while not size_correct:
+    
+        size = input('Please enter the number of texts to randomize:')
+
+        try:
+
+            int(size)
+            size_correct = True
+        
+        except ValueError:
+
+            print('Please, enter an integer.')
+
 
 def permutations(dir_in, size_in, csv_name):
     '''
@@ -83,13 +100,13 @@ def texts(size_in):
     # Create dictionary that will store the texts
     texts_out = {}
 
-    print('Please enter the ' + str(size_in) + ' texts to be randomized.\n')
+    print(f'Please enter the {size_in} texts to be randomized.\n')
 
-    # Enter as many texts as specified by 'size_in'
+    # Enter as many texts as specified by 'size_in'    
     for i in range(size_in):
          
-         text = input('Insert text ' + str(i+1) + ':')
-         print('Text ' + str(i+1) + ' is \"' + text + '\".\n')
+         text = input(f'Insert text {i+1}:')
+         print(f'Text {i+1} is \"{text}\".\n')
 
          texts_out[i] = text
 
@@ -117,7 +134,7 @@ def survey_tab(name_in, size_in):
 
     # Enter the field type associated with the text to randomize
     type_in = input('Enter the field type of the texts (for example \"integer\", \"select_one\", \"select_multiple\".\nIf \"select_one\" or \"select_multiple\" is entered, remember to input the list name too):')
-    print('The field type entered is \"' + type_in + '\".\n')
+    print(f'The field type entered is \"{type_in}\".\n')
 
     # Initiate the worksheet and populate it
     workbook_out = xlsxwriter.Workbook(name_in)
@@ -231,22 +248,25 @@ def survey_tab(name_in, size_in):
     # Save workbook
     workbook_out.close()
 
-''' Run functions '''
+''' Run program '''
+if __name__ == "__main__":
+    
+    size = input_size()
 
-permutations(directory, size, csv_name)
+    permutations(directory, size, csv_name)
 
-list_texts = texts(size)
+    list_texts = texts(size)
 
-choices = choices_tab(list_texts, size)
+    choices = choices_tab(list_texts, size)
 
-survey_tab(workbook_name, size)
+    survey_tab(workbook_name, size)
 
-# Combine 'survey' tab and 'choices' tab
-with pd.ExcelWriter(workbook_name, engine='openpyxl', mode='a') as writer:
+    # Combine 'survey' tab and 'choices' tab
+    with pd.ExcelWriter(workbook_name, engine='openpyxl', mode='a') as writer:
 
-    excel.ExcelFormatter.header_style = None
-    choices.to_excel(writer, index=False, sheet_name='choices')
+        excel.ExcelFormatter.header_style = None
+        choices.to_excel(writer, index=False, sheet_name='choices')
 
-print('Success! The files have been saved in \"' + str(directory) + '\".')
+    print(f'Success! The files have been saved in \"{directory}\".')
 
 ''' End '''
