@@ -14,6 +14,6 @@ Importantly, this script differs from the Stata code shown in the above-mentione
 
 In order to run this program seamlessly, simply insert the correct directory of the output files. The names of the output files can also be changed.
 
-For more information regarding the limitations of this approach, please refer to the technical brief.
+For more information regarding the limitations of this solution, please refer to the technical brief linked above.
 
-If you find a bug, or you would like to suggest an improvement, please raise an issue through the issues tab above
+If you find a bug or you would like to suggest an improvement, please raise an issue through the issues tab.

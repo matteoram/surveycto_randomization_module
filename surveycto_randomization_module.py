@@ -7,11 +7,11 @@ Author: Matteo Ramina
 Created on: March 6, 2023
 Updated by:
 Updated on:
-
 '''
 
-''' Libraries '''
+# Modules
 
+import os
 import pandas as pd
 import numpy as np
 import itertools as it
@@ -23,18 +23,25 @@ from pandas.io.formats import excel
 ''' Parameters to be changed manually '''
 
 # Directory and output files
+
 ''' Using pathlib to deal with filesystem paths '''
 directory = Path('/Users/matteoramina/Library/Mobile Documents/com~apple~CloudDocs/programming/python/surveycto_randomization_module/test/')
 csv_name = 'surveycto_randomization_module.csv'
 xlsx_name = 'surveycto_randomization_module.xlsx'
 workbook_name = directory/xlsx_name
 
-''' Functions '''
+# Functions
+
+def verify_directory(dir_in):
+    ''' Verify that directory exists '''
+
+    directory_correct = os.path.exists(dir_in)
+
+    return directory_correct
+
 
 def input_size():
-    ''' 
-    Input number of texts to randomize
-    '''
+    ''' Input number of texts to randomize '''
 
     size_correct = False
 
@@ -53,9 +60,8 @@ def input_size():
 
 
 def permutations(dir_in, size_in, csv_name):
-    '''
-    Create all permutations given 'size_in' and save them in 'dir_in'
-    '''
+    ''' Create all permutations given 'size_in' and save them in 'dir_in'  '''
+
     # Create permutations and store them in a Pandas dataframe
     list_perms = list(it.permutations(list(range(size_in))))
     df = pd.DataFrame(list_perms)
@@ -71,9 +77,7 @@ def permutations(dir_in, size_in, csv_name):
     df.to_csv(file_out, sep=',', index=True, index_label='permutations')
  
 def texts(size_in):
-    '''
-    Enter texts to randomize and save them into a dictionary
-    '''
+    ''' Enter texts to randomize and save them into a dictionary '''
     # Create dictionary that will store the texts
     texts_out = {}
 
@@ -90,9 +94,7 @@ def texts(size_in):
     return dict(texts_out)
 
 def choices_tab(dict_in, size_in):
-    '''
-    Create the 'choices' tab to be copied in the SurveyCTO questionnaire
-    '''
+    ''' Create the 'choices' tab to be copied in the SurveyCTO questionnaire '''
     # Create a Pandas dataframe with headings as in a stardard SurveyCTO file's choices tab
     col_names = ['list_name', 'value', 'label']
     choices_out = pd.DataFrame(columns=col_names, index=range(size_in))
@@ -105,9 +107,7 @@ def choices_tab(dict_in, size_in):
     return choices_out
 
 def survey_tab(name_in, size_in):
-    '''
-    Create the 'survey' tab to be copied in the SurveyCTO questionnare
-    '''
+    ''' Create the 'survey' tab to be copied in the SurveyCTO questionnare '''
 
     # Enter the field type associated with the text to randomize
     type_in = input('Enter the field type of the texts (for example \"integer\", \"select_one\", \"select_multiple\".\nIf \"select_one\" or \"select_multiple\" is entered, remember to input the list name too):')
@@ -225,25 +225,34 @@ def survey_tab(name_in, size_in):
     # Save workbook
     workbook_out.close()
 
-''' Run program '''
+# Run program
+
 if __name__ == "__main__":
     
-    size = input_size()
+    directory_status = verify_directory(directory)
 
-    permutations(directory, size, csv_name)
+    if directory_status == True:
 
-    list_texts = texts(size)
+        size = input_size()
 
-    choices = choices_tab(list_texts, size)
+        permutations(directory, size, csv_name)
 
-    survey_tab(workbook_name, size)
+        list_texts = texts(size)
 
-    # Combine 'survey' tab and 'choices' tab
-    with pd.ExcelWriter(workbook_name, engine='openpyxl', mode='a') as writer:
+        choices = choices_tab(list_texts, size)
 
-        excel.ExcelFormatter.header_style = None
-        choices.to_excel(writer, index=False, sheet_name='choices')
+        survey_tab(workbook_name, size)
 
-    print(f'Success! The files have been saved in \"{directory}\".')
+        # Combine 'survey' tab and 'choices' tab
+        with pd.ExcelWriter(workbook_name, engine='openpyxl', mode='a') as writer:
+
+            excel.ExcelFormatter.header_style = None
+            choices.to_excel(writer, index=False, sheet_name='choices')
+
+        print(f'Success! The files have been saved in \"{directory}\".')
+
+    else:
+
+        print('The directory does not exist, please enter a valid directory in row.\n')
 
 ''' End '''
