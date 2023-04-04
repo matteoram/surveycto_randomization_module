@@ -47,16 +47,19 @@ def input_size():
 
     while not size_correct:
     
-        size = input('Please enter the number of texts to randomize:')
+        size_out = input('Please enter the number of texts to randomize:')
 
         try:
 
-            int(size)
+            int(size_out)
             size_correct = True
+            size_out = int(size_out)
         
         except ValueError:
 
             print('Please, enter an integer.')
+
+    return size_out
 
 
 def permutations(dir_in, size_in, csv_name):
@@ -83,7 +86,7 @@ def texts(size_in):
 
     print(f'Please enter the {size_in} texts to be randomized.\n')
 
-    # Enter as many texts as specified by 'size_in'    
+    # Enter as many texts as specified by 'size_in'  
     for i in range(size_in):
          
          text = input(f'Insert text {i+1}:')
@@ -253,6 +256,6 @@ if __name__ == "__main__":
 
     else:
 
-        print('The directory does not exist, please enter a valid directory in row.\n')
+        print('The directory does not exist, please enter a valid directory in row 28.\n')
 
-''' End '''
+# End
