@@ -8,29 +8,6 @@ Created on: March 6, 2023
 Updated by:
 Updated on:
 
-Description: This Python script creates a randomization module that can be used in a SurveyCTO
-questionnaire. It follows the approach outlined in the technical brief "Tackling Question Order 
-Effects to Improve the Accuracy of Your Survey" available at:
-www.laterite.com/blog/technical-brief-tackling-question-order-effects.
-
-Simply put, this program:
-1) Creates a csv file containing all possible permutations given a integer indicating the
-number of texts to be randomized;
-2) Creates an xlsx file replicating the 'survey' and 'choices' tabs of a standard SurveyCTO
-questionnaire and populates them with the required code to randomize the order of the texts.
-
-This script differs from the Stata code shown in the technical brief in the following ways:
-1) The wording 'texts' is used instead of 'statements', given that this module can be used to
-randomize not only statements, but also questions or any type of string;
-2) The script produces not only a csv file as in the case of the Stata code, but also automates
-the creation of the respective xslx file to be added to the SurveyCTO questionnare. However, it
-requires the user to enter the texts to be randomized and the SurveyCTO field type associated to
-the texts (e.g. 'select_one', 'select_multiple', integer, etc.).
-
-In order to run this program, insert the correct directory of the output files and number of 
-texts to be randomized. The names of the output files can also be changed.
-
-For more information regarding the limitations of this approach, please refer to the technical brief.
 '''
 
 ''' Libraries '''
