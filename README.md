@@ -2,9 +2,7 @@
 
 ## A turnkey script to implement in a randomization module in a SurveyCTO questionnaire and address question order effects
 
-This Python script creates a randomization module to be used in a SurveyCTO questionnaire. It follows the approach outlined in "Tackling Question Order Effects to Improve the Accuracy of Your Survey" available at <a href="www.laterite.com/blog/technical-brief-tackling-question-order-effects" target="_blank">
-<mg src="https://www.laterite.com/wp-content/uploads/2020/05/cropped-laterite-favicon-192x192.jpg" alt="Technical brief" width=192 height=192 border="10" />
-</a>
+This Python script creates a randomization module to be used in a SurveyCTO questionnaire. It follows the approach outlined in "Tackling Question Order Effects to Improve the Accuracy of Your Survey" available at www.laterite.com/blog/technical-brief-tackling-question-order-effects.
 
 Simply put, this program:
 * Creates a csv file containing all possible permutations given a integer indicating the number of texts to be randomized;
