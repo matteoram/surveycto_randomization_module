@@ -2,126 +2,127 @@
 # -*- coding: utf-8 -*-
 
 '''
-Project: SurveyCTO Randomization Module
-Author: Matteo Ramina
-Created on: March 6, 2023
-Updated by:
-Updated on:
+project: surveycto randomization module
+author: matteo ramina
+created on: march 6, 2023
+updated by: matteo ramina
+updated on: september 14, 2023
 '''
 
-# Modules
+### modules
+''' make sure to clone the github repository and run the command "pip3 install -r requirements.txt" 
+ your terminal to install the required packages '''
 
 import os
+import math
+import itertools as it
+from pathlib import Path
 import pandas as pd
 import numpy as np
-import itertools as it
-import math
-from pathlib import Path
-import xlsxwriter
 from pandas.io.formats import excel
+import xlsxwriter
+import openpyxl
 
-''' Parameters to be changed manually '''
+### directory and output files
+''' parameters to be changed manually '''
 
-# Directory and output files
-
-''' Using pathlib to deal with filesystem paths '''
-directory = Path('/Users/matteoramina/Library/Mobile Documents/com~apple~CloudDocs/programming/python/surveycto_randomization_module/test/')
+directory = Path('add_your_directory_here')
 csv_name = 'surveycto_randomization_module.csv'
 xlsx_name = 'surveycto_randomization_module.xlsx'
 workbook_name = directory/xlsx_name
 
-# Functions
+# functions
 
 def verify_directory(dir_in):
-    ''' Verify that directory exists '''
+    ''' verify that directory exists '''
 
     directory_correct = os.path.exists(dir_in)
-
+    
     return directory_correct
 
 
 def input_size():
-    ''' Input number of texts to randomize '''
+    ''' input number of texts to randomize '''
 
     size_correct = False
-
+    
     while not size_correct:
     
         size_out = input('Please enter the number of texts to randomize:')
-
+    
         try:
-
+    
             int(size_out)
             size_correct = True
             size_out = int(size_out)
-        
+    
         except ValueError:
-
+    
             print('Please, enter an integer.')
-
+    
     return size_out
 
 
 def permutations(dir_in, size_in, csv_name):
-    ''' Create all permutations given 'size_in' and save them in 'dir_in'  '''
-
-    # Create permutations and store them in a Pandas dataframe
+    ''' create all permutations given 'size_in' and save them in 'dir_in'  '''
+    
+    # create permutations and store them in a Pandas dataframe
     list_perms = list(it.permutations(list(range(size_in))))
     df = pd.DataFrame(list_perms)
-
-    # Add 'v' in front of variables' names since they have to start with a letter
+    
+    # add 'v' in front of variables' names since they have to start with a letter
     df = df.add_prefix('v')
-
-    # Force index to start from 1 rather than 0
+    
+    # force index to start from 1 rather than 0
     df.index = np.arange(1, len(df)+1)
-
-    # Export file
+    
+    # export file
     file_out = dir_in/csv_name
     df.to_csv(file_out, sep=',', index=True, index_label='permutations')
  
 def texts(size_in):
-    ''' Enter texts to randomize and save them into a dictionary '''
-    # Create dictionary that will store the texts
+    ''' enter texts to randomize and save them into a dictionary '''
+   
+    # create dictionary that will store the texts
     texts_out = {}
-
     print(f'Please enter the {size_in} texts to be randomized.\n')
-
-    # Enter as many texts as specified by 'size_in'  
+   
+    # enter as many texts as specified by 'size_in'  
     for i in range(size_in):
-         
+   
          text = input(f'Insert text {i+1}:')
          print(f'Text {i+1} is \"{text}\".\n')
-
          texts_out[i] = text
-
+   
     return dict(texts_out)
 
 def choices_tab(dict_in, size_in):
-    ''' Create the 'choices' tab to be copied in the SurveyCTO questionnaire '''
-    # Create a Pandas dataframe with headings as in a stardard SurveyCTO file's choices tab
+    ''' create the 'choices' tab to be copied in the surveycto questionnaire '''
+    
+    # create a Pandas dataframe with headings as in a stardard surveycto file's choices tab
     col_names = ['list_name', 'value', 'label']
     choices_out = pd.DataFrame(columns=col_names, index=range(size_in))
     
-    # Populate the dataframe given the texts in 'dict_in'
+    # populate the dataframe given the texts in 'dict_in'
     choices_out['list_name'] = 'texts'
     choices_out['value'] = np.arange(1, choices_out.shape[0] + 1)
     choices_out['label'].update(pd.Series(dict_in))
-
+    
     return choices_out
 
 def survey_tab(name_in, size_in):
-    ''' Create the 'survey' tab to be copied in the SurveyCTO questionnare '''
-
-    # Enter the field type associated with the text to randomize
+    ''' create the 'survey' tab to be copied in the surveycto questionnare '''
+    
+    # enter the field type associated with the text to randomize
     type_in = input('Enter the field type of the texts (for example \"integer\", \"select_one\", \"select_multiple\".\nIf \"select_one\" or \"select_multiple\" is entered, remember to input the list name too):')
     print(f'The field type entered is \"{type_in}\".\n')
-
-    # Initiate the worksheet and populate it
+    
+    # initiate the worksheet and populate it
     workbook_out = xlsxwriter.Workbook(name_in)
     sheet1 = workbook_out.add_worksheet('survey')
-
+    
     n = math.perm(size_in)
-
+    
     sheet1.write('A1', 'type')
     sheet1.write('B1', 'name')
     sheet1.write('C1', 'label')
@@ -143,7 +144,7 @@ def survey_tab(name_in, size_in):
     sheet1.write('B5', 'permutation_selection')
     sheet1.write('C5', 'Selection of permutation based on random number generated')
     sheet1.write('E5', 'if(${permutation_number} = 1, ${permutation_max}, int(${permutation_number}*${permutation_max})+1)')
-    
+
     j = 0
 
     for i in range(6, size_in*2+6, 2):
@@ -222,13 +223,13 @@ def survey_tab(name_in, size_in):
     sheet1.write(cell_B, 'randomization_group')
     sheet1.write(cell_C, 'Randomization module')
     
-    # Format changes
+    # format changes
     sheet1.autofit()
 
-    # Save workbook
+    # save workbook
     workbook_out.close()
 
-# Run program
+# run program
 
 if __name__ == "__main__":
     
@@ -258,4 +259,4 @@ if __name__ == "__main__":
 
         print('The directory does not exist, please enter a valid directory in row 28.\n')
 
-# End
+# end

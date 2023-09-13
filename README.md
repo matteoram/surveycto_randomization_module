@@ -1,22 +1,22 @@
 # SurveyCTO Randomization Module
 
-## A turnkey script to implement in a randomization module in a SurveyCTO questionnaire and address question order effects
+## A turnkey script addressing question order effects via a randomization module within a SurveyCTO questionnaire
 
-This Python script creates a randomization module to be used in a SurveyCTO questionnaire. It follows the approach outlined in Ramina (2022).
+This Python script creates a randomization module intended for use in a SurveyCTO questionnaire, following the approach outlined in Ramina (2022).
 
 Simply put, this program:
-* Creates a csv file containing all possible permutations given a integer indicating the number of texts to be randomized;
-* Creates an xlsx file replicating the 'survey' and 'choices' tabs of a standard SurveyCTO questionnaire and populates them with the required code to randomize the order of the texts.
+* Creates a csv file containing all possible permutations based on a integer indicating the number of texts to be randomized;
+* Creates an xlsx file replicating the 'survey' and 'choices' tabs found in a standard SurveyCTO questionnaire, and populates them with the required code to randomize the order of the texts.
 
-Importantly, this script differs from the Stata code shown in the above-mentioned technical brief in two ways:
-* The wording 'statements' is replaced by 'texts', given that the module can be used to randomize not only statements, but any type of string;
-* The script produces not only a csv file as in the case of the Stata code, but also automates the creation of the respective Excel file to be added to the SurveyCTO questionnare. To execute this, it requires the user to enter the texts to be randomized and the SurveyCTO field type associated to the texts (e.g. 'select_one', 'select_multiple', integer, etc.).
+Importantly, this script differs from the Stata code provided in the above-mentioned technical brief in two ways:
+* The term 'statements' is replaced with 'texts' to emphasize that the module can randomize any type of string, not only statements;
+* In addition to producing a csv file as seen in the Stata code, this script automates the creation of the corresponding Excel file that can be seamlessly integrated into the SurveyCTO questionnaire. To execute this, the user is prompted to input the texts for randomization and specify the SurveyCTO field type associated with these texts (e.g., 'select_one,' 'select_multiple,' 'integer,' etc.).
 
-In order to run this program seamlessly, simply insert the correct directory of the output files. The names of the output files can also be changed.
+In order to run this program smoothly, simply provide the correct directory path for the output files. You also have the flexibility to customize the names of the output files.
 
 For more information regarding the limitations of this solution, please refer to the technical brief linked above.
 
-If you find a bug or you would like to suggest an improvement, please raise an issue through the issues tab.
+If you find a bug or you would like to suggest improvements, please raise an issue through the issues tab.
 
 ## Reference
 
